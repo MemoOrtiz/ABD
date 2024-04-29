@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar sesión</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+
+<div id="background"></div>
+
+<form>
+  <h1 class="title">Iniciar sesión</h1>
+  <div class="form-field">
+    <input type="user" placeholder="Usuario" required id="usuario"/>
+  </div>
+  
+  <div class="form-field">
+    <input type="password" placeholder="Contraseña" required id="contraseña"/>                         
+  </div>
+  <span id = "error"></span>
+  <div class="form-field">
+    <button class="btn" type="Aceptar" id="btn">Ingresar</button>
+  </div>
+</form>
+<script src="{{ url_for('static', filename='main.js') }}"></script>  
+</body>
+
+</html>
