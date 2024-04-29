@@ -1,14 +1,27 @@
 import bcrypt
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template 
 from flask_cors import CORS
 from connection.database import conn
+
 
 app = Flask(__name__, static_url_path='', template_folder='../templates', static_folder='../static')
 cors = CORS(app)
 
 @app.route('/')
 def root():
+    return render_template('login.html')
+
+@app.route('/pagePrincipal')
+def pagePrincipal():
     return render_template('index.html')
+
+@app.route('/pageGeneric')
+def pageGeneric():
+    return render_template('generic.html')
+
+@app.route('/pageElements')
+def pageElements():
+    return render_template('elements.html')
 
 def hash_password(password):
     # Genera un salt y luego hashea la contraseña con ese salt
