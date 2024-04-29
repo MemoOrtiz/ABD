@@ -20,7 +20,7 @@ button.addEventListener("click", async (e) => {
             });
             const data = await res.json();
             if(data.message == "success"){
-                location.href = "/main.html";
+                location.href = "/pagePrincipal";
             }else{
                 error.innerHTML = "Usuario o contraseña invalida";
             }
