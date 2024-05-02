@@ -186,6 +186,73 @@ sup {
   position: relative;
   top: -0.5em; }
 
+  #mensajeMaximoCaracteres {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  #mensajeMaximoNumeros {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  table.tabla-personalizada {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  /* Estilos para las celdas del encabezado */
+  th.celda-encabezado {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    padding: 10px;
+  }
+
+  /* Estilos para las celdas del cuerpo */
+  td.celda-datos {
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+  /* Estilos para los elementos de entrada de texto */
+table.tabla-personalizada input[type="text"] {
+  vertical-align: middle;  /* Alinear verticalmente en el medio */
+  line-height: normal;  /* Restablecer la altura de línea a su valor normal */
+}
+/* Estilos para los elementos de entrada de texto */
+table.tabla-personalizada input[type="text"] {
+  margin: 0;  /* Restablecer el margen a 0 */
+  padding: 0;  /* Restablecer el relleno a 0 */
+}
+/* Style for the table container */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+/* Style for the table itself */
+#data-table-div table {
+  border-collapse: collapse;
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+/* Style for table headers */
+#data-table-div th {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+/* Style for table cells */
+#data-table-div td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
 blockquote {
   border-left: solid 3px rgba(210, 215, 217, 0.75);
   font-style: italic;
