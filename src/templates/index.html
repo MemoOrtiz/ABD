@@ -1,30 +1,156 @@
-<!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>Iniciar sesión</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Quejas y Seguimiento</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="/pages/assets/css/main.css" />
+	</head>
+	<body class="is-preload">
 
-</head>
-<body>
+		<!-- Wrapper -->
+			<div id="wrapper">
 
-<div id="background"></div>
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
 
-<form>
-  <h1 class="title">Iniciar sesión</h1>
-  <div class="form-field">
-    <input type="user" placeholder="Usuario" required id="usuario"/>
-  </div>
-  
-  <div class="form-field">
-    <input type="password" placeholder="Contraseña" required id="contraseña"/>                         
-  </div>
-  <span id = "error"></span>
-  <div class="form-field">
-    <button class="btn" type="Aceptar" id="btn">Ingresar</button>
-  </div>
-</form>
-<script src="{{ url_for('static', filename='main.js') }}"></script>  
-</body>
+							<!-- Header -->
+								<header id="header">
+									<a href="/pagePrincipal" class="logo"><strong>Pagina Principal</strong> Sistema de Quejas</a>
+								</header>
+
+							<!-- Banner -->
+								<section id="banner">
+									<div class="content">
+										<header>
+											<h1>Sistema de Quejas<br />
+											y Seguimiento</h1>
+											<p>Un espacio para todos </p>
+										</header>
+										<p>Este sistema permite a los estudiantes, profesores y personal del Instituto Tecnologico de Saltillo presentar quejas sobre cualquier aspecto del instituto. Las quejas pueden ser sobre instalaciones, servicios, personal, etc. </p>
+										<ul class="actions">
+											<li><a href="#" class="button big">Learn More</a></li>
+										</ul>
+									</div>
+									<span class="image object">
+										<img src="pages/images/pic10.jpg" alt="" />
+									</span>
+								</section>
+
+							<!-- Section -->
+								<section>
+									<header class="major">
+										<h2>Una herramienta para escuchar y conciliar conflictos</h2>
+									</header>
+									<div class="features">
+										<article>
+											<span class="icon fa-gem"></span>
+											<div class="content">
+												<h3>Esta pagina se encuentra en desarrollo</h3>
+												<p>Es posible que algunas funcionalidades esten deshabilitadas</p>
+											</div>
+										</article>
+										<article>
+											<span class="icon solid fa-paper-plane"></span>
+											<div class="content">
+												<h3>Gestion de quejas y seguimiento a ellas</h3>
+												<p>Planificada para el ITS</p>
+											</div>
+										</article>
+										<article>
+											<span class="icon solid fa-rocket"></span>
+											<div class="content">
+												<h3>Desarrollada por Guillermo Ortiz</h3>
+												<p>Este es mi primer proyecto con desarrollo web</p>
+											</div>
+										</article>
+										<article>
+											<span class="icon solid fa-signal"></span>
+											<div class="content">
+												<h3>El proyecto mas grande</h3>
+												<p>Hecha para la materia de Administracion de Base de Datos.</p>
+											</div>
+										</article>
+									</div>
+								</section>
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+				<div id="sidebar">
+					<div class="inner">
+
+						<!-- Search -->
+							<section id="search" class="alt">
+								<form method="post" action="#">
+									<input type="text" name="query" id="query" placeholder="Search" />
+								</form>
+							</section>
+
+						<!-- Menu -->
+							<nav id="menu">
+								<header class="major">
+									<h2>Menu</h2>
+								</header>
+								<ul>
+									<li><a href="/pagePrincipal">Homepage</a></li>
+									<li><a href="/pageGeneric">Generos</a></li>
+									<li><a href="/pageElements">Elements</a></li>
+									<li>
+										<span class="opener">Submenu Tabla Padres</span>
+										<ul>
+											<li><a href="#">Generos</a></li>
+											<li><a href="#">Carreras</a></li>
+											<li><a href="#">Estados Queja</a></li>
+											<li><a href="#">Moderador</a></li>
+										</ul>
+									</li>
+									<li>
+										<span class="opener">Submenu Tablas Hijas</span>
+										<ul>
+											<li><a href="#">Alumnos</a></li>
+											<li><a href="#">Materias</a></li>
+											<li><a href="#">Docentes</a></li>
+											<li><a href="#">Correos</a></li>
+										</ul>
+									</li>
+									<li><a href="#">Quejas</a></li>
+									<li><a href="#">Telefonos</a></li>
+									<li><a href="#">Detalles Quejas</a></li>
+								</ul>
+							</nav>
+							<section>
+								<header class="major">
+									<h2>Contacto</h2>
+								</header>
+								<p>Si tienes alguna duda, pregunta o necesitas asistencia con el Sistema de Quejas, no dudes en contactarnos.</p>
+
+									<p> Disponemos de diversos canales de atención para atenderte de manera oportuna y eficaz: </p>
+								<ul class="contact">
+									<li class="icon solid fa-envelope"> L22050370@saltillo.tecnm.mx </li>
+									<li class="icon solid fa-phone">(844) 119-2929</li>
+									<li class="icon solid fa-home">Blvd. Venustiano Carranza, Priv. Tecnológico 2400<br />
+										25280 Saltillo, Coahuila</li>
+								</ul>
+							</section>
+						</div>
+				</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="pages/assets/js/jquery.min.js"></script>
+			<script src="pages/assets/js/browser.min.js"></script>
+			<script src="pages/assets/js/breakpoints.min.js"></script>
+			<script src="pages/assets/js/util.js"></script>
+			<script src="pages/assets/js/main.js"></script>
+
+	</body>
 
 </html>

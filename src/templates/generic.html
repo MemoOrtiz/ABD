@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Generos-Quejas y Seguimiento</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="pages/assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="/pagePrincipal" class="logo"><strong>Pagina Principal</strong> Sistema de Quejas</a>
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>Generos</h1>
+									</header>
+			
+									<div style="display: flex; justify-content: center;"><h2>Insertar en Tabla Generos</h2></div>
+								<div>	
+									<table class="tabla-personalizada">
+											<thead>
+											<tr>
+											  <th class="celda-encabezado">ID A INSERTAR</th>
+											  <th class="celda-encabezado">NOMBRE DE GENERO A INSERTAR</th>
+											</tr>
+										  </thead>
+										  <tbody>
+											<tr>
+											  <td class="celda-datos"><input type="text" name="numericBoxGeneros" id="numericBoxGeneros" max="2147483647"></td>
+											  <p id="mensajeMaximoNumeros" style="display: none;">Máximo hasta 2147483647</p>
+
+											  <td class="celda-datos"><input type="text" name="textBoxGeneros" id="textBoxGeneros"></td>
+											  <p id="mensajeMaximoCaracteres" style="display: none;">Máximo 20 caracteres.</p>
+											</tr>
+										  </tbody>
+									</table>
+								</div>
+										<p> </p>		
+										<button id="botonInsertarGeneros" class="button primary" style="display: block; margin: auto;">Insertar</button>
+										<p> </p>	
+
+								<div style="display: flex; justify-content: center;"><h2>Modificar en Tabla Generos</h2></div>
+								
+								<div>	
+									<table class="tabla-personalizada">
+											<thead>
+											<tr>
+											  
+											  <th class="celda-encabezado">NOMBRE DE GENERO A MODIFICAR</th>
+											</tr>
+										  </thead>
+										  <tbody>
+											<tr>
+											  
+											  <td class="celda-datos"><input type="text" name="textBoxGeneros" id="textBoxGeneros"></td>
+											  <p id="mensajeMaximoCaracteres" style="display: none;">Máximo 20 caracteres.</p>
+											</tr>
+										  </tbody>
+									</table>
+								</div>
+										<p> </p>		
+										<button id="botonModificarGeneros" class="button primary" style="display: block; margin: auto;">Modificar</button>
+										<p> </p>
+								<div style="display: flex; justify-content: center;"><h2>Eliminar en Tabla Generos</h2></div>
+								<div>	
+									<table class="tabla-personalizada">
+											<thead>
+											<tr>
+												<th class="celda-encabezado">ID A ELIMINAR</th>
+											 	<th class="celda-encabezado">NOMBRE DE GENERO A ELIMINAR</th>
+											</tr>
+										  </thead>
+										  <tbody>
+											<tr>
+												<td class="celda-datos">
+												<select id="selectBoxGeneros"></select></td>
+											  	<td class="celda-datos"><input type="text" name="textBoxGeneros" id="textBoxGeneros"></td>
+												  <p id="mensajeMaximoCaracteres" style="display: none;">Máximo 20 caracteres.</p>
+												
+													
+													
+											</tr>
+										  </tbody>
+									</table>
+								</div>
+										<p> </p>		
+										<button id="botonEliminarGeneros" class="button primary" style="display: inline-block; margin: auto;">Eliminar</button><button id="botonModificarGeneros" class="button primary" style="display: inline-block; margin: auto;">Modificar</button>
+												
+										
+										<p> </p>
+								<div style="display: flex; justify-content: center;"><h2>Visualización de Tabla Generos</h2></div>
+								
+									<div id = "contenedorTabla" style="display:none">
+										<table>
+											<thead>
+												<tr>
+												  <th class="celda-encabezado">ID</th>
+												  <th class="celda-encabezado">NOMBRE</th>
+												</tr>
+											  </thead>
+											  <tbody id="insertar-aqui">
+											  </tbody>
+										</table>
+									</div>
+										</section>
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+				<div id="sidebar">
+					<div class="inner">
+
+						<!-- Search -->
+							<section id="search" class="alt">
+								<form method="post" action="#">
+									<input type="text" name="query" id="query" placeholder="Search" />
+								</form>
+							</section>
+
+						<!-- Menu -->
+							<nav id="menu">
+								<header class="major">
+									<h2>Menu</h2>
+								</header>
+								<ul>
+									<li><a href="/pagePrincipal">Homepage</a></li>
+									<li><a href="/pageGeneric">Generos</a></li>
+									<li><a href="/pageElements">Elements</a></li>
+									<li>
+										<span class="opener">Submenu Tabla Padres</span>
+										<ul>
+											<li><a href="#">Generos</a></li>
+											<li><a href="#">Carreras</a></li>
+											<li><a href="#">Estados Queja</a></li>
+											<li><a href="#">Moderador</a></li>
+										</ul>
+									</li>
+									<li>
+										<span class="opener">Submenu Tablas Hijas</span>
+										<ul>
+											<li><a href="#">Alumnos</a></li>
+											<li><a href="#">Materias</a></li>
+											<li><a href="#">Docentes</a></li>
+											<li><a href="#">Correos</a></li>
+										</ul>
+									</li>
+									<li><a href="#">Quejas</a></li>
+									<li><a href="#">Telefonos</a></li>
+									<li><a href="#">Detalles Quejas</a></li>
+								</ul>
+							</nav>
+							<section>
+								<header class="major">
+									<h2>Contacto</h2>
+								</header>
+								<p>Si tienes alguna duda, pregunta o necesitas asistencia con el Sistema de Quejas, no dudes en contactarnos.</p>
+
+									<p> Disponemos de diversos canales de atención para atenderte de manera oportuna y eficaz: </p>
+								<ul class="contact">
+									<li class="icon solid fa-envelope"> L22050370@saltillo.tecnm.mx </li>
+									<li class="icon solid fa-phone">(844) 119-2929</li>
+									<li class="icon solid fa-home">Blvd. Venustiano Carranza, Priv. Tecnológico 2400<br />
+										25280 Saltillo, Coahuila</li>
+								</ul>
+							</section>
+						</div>
+				</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="pages/assets/js/jquery.min.js"></script>
+			<script src="pages/assets/js/browser.min.js"></script>
+			<script src="pages/assets/js/breakpoints.min.js"></script>
+			<script src="pages/assets/js/util.js"></script>
+			<script src="pages/assets/js/main.js"></script>
+			<script src="pages/assets/js/generos.js"></script>
+
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	</body>
+</html>
