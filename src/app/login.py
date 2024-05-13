@@ -7,7 +7,7 @@ from flask_socketio import SocketIO, emit
 
 app = Flask(__name__, static_url_path='', template_folder='../templates', static_folder='../static')
 cors = CORS(app, resources={r"/*": {"origins": ["http://localhost:5000", "http://127.0.0.1:5000"]}})
-socketio = SocketIO(app, cors_allowed_origins=["http://localhost:5000", "http://127.0.0.1:5000"])
+socketio = SocketIO(app, cors_allowed_origins=["http://127.0.0.1:5000", "http://localhost:5000"])
 
 @app.route('/')
 def root():
@@ -99,6 +99,26 @@ def get_generos():
     # Devolver la lista de diccionarios en formato JSON
     return jsonify(data)
 
+@app.route('/generos/<int:id_genero>', methods=['GET'])
+def get_genero(id_genero):
+    cursor = conn.cursor()
+
+    # Ejecutar consulta SQL para obtener el nombre del género
+    consulta = "SELECT nombre FROM Generos WHERE id_genero = %s"
+    cursor.execute(consulta, (id_genero,))
+
+    # Obtener resultado de la consulta
+    resultado = cursor.fetchone()
+
+    # Cerrar cursor
+    cursor.close()
+
+    if resultado is not None:
+        # Devolver el nombre del género en formato JSON
+        return jsonify({'nombre': resultado[0]})
+    else:
+        return jsonify({'mensaje': 'Género no encontrado'}), 404
+
 @app.route('/insertar-dato', methods=['POST'])
 def insertar_dato():
     try:
@@ -161,6 +181,35 @@ def eliminar_dato(id_genero):
         return jsonify({'mensaje': 'Dato eliminado'})
     except Exception as e:
         return jsonify({'mensaje': 'Error al eliminar el dato'})
+    
+@app.route('/modificar-dato/<int:id_genero>', methods=['PUT'])
+def modificar_dato(id_genero):
+    try:
+        nuevo_dato = request.json
+        cursor = conn.cursor()
+
+        # Recoger los datos de los campos de entrada
+        nombre = nuevo_dato['nombre'].upper()  # Convertir el nombre a mayúsculas
+        print(nombre)
+        # Ejecutar consulta SQL para modificar el dato
+        consulta = "UPDATE Generos SET nombre = %s WHERE id_genero = %s"
+        cursor.execute(consulta, (nombre, id_genero))
+
+        # Confirmar la transacción
+        conn.commit()
+
+        # Cerrar cursor
+        cursor.close()
+
+        # Emitir un mensaje para actualizar la tabla
+        print("Emitiendo evento 'actualizar_generos'")
+        socketio.emit('actualizar_generos')
+
+        return jsonify({'mensaje': 'Dato modificado'}), 200
+
+    except Exception as e:
+        return jsonify({'mensaje': 'Error al modificar el dato'}), 500
+
 
 if __name__ == "__main__": 
     socketio.run(app, debug=True)
