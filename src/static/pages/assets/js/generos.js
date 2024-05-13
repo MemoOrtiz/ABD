@@ -31,6 +31,20 @@ numericBoxGeneros.addEventListener("input", () => {
     } else {
         mensajeMaximoNumeros.style.display = "none"; // Ocultar el mensaje
     }
+
+});
+numericBoxGeneros.addEventListener('change', function() {
+    // Recoger el id_genero del campo de entrada
+    var id_genero = numericBoxGeneros.value;
+
+    // Enviar una solicitud AJAX al servidor para obtener el nombre del género
+    fetch('/generos/' + id_genero)
+        .then(response => response.json())
+        .then(data => {
+            // Completar el campo de entrada textBoxGeneros con el nombre del género
+            textBoxGeneros.value = data.nombre || '';
+        })
+        .catch(error => console.error('Error:', error));
 });
 
 function cargarDatos() {
@@ -73,7 +87,7 @@ function cargarDatos() {
             // Agregar filas a la tabla
             datos.forEach(fila => contenedorTabla.appendChild(fila));
             // Obtener select
-            const selectBoxGeneros = document.getElementById('selectBoxGeneros');
+            const selectBoxGeneros = document.getElementById('textBoxGeneros');
             // Limpiar el select
             selectBoxGeneros.innerHTML = '';
             // Agregar opciones al select
@@ -110,19 +124,23 @@ document.getElementById('botonInsertarGeneros').addEventListener('click', functi
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Success:', data);
-        // Limpiar las entradas de texto
-        document.getElementById('numericBoxGeneros').value = '';
-        document.getElementById('textBoxGeneros').value = '';
+            console.log('Success:', data);
+            // Limpiar las entradas de texto
+            document.getElementById('numericBoxGeneros').value = '';
+            document.getElementById('textBoxGeneros').value = '';
     })
     .catch((error) => {
-        console.error('Error:', error);
+        if (error.mensaje) {
+            alert(error.mensaje);
+        }else {
+            console.error('Error:', error);
+        }
     });
 });
 
 document.getElementById('botonEliminarGeneros').addEventListener('click', function() {
     // Recoger los datos de los campos de entrada
-    var id_genero = document.getElementById('selectBoxGeneros').value;
+    var id_genero = document.getElementById('numericBoxGeneros').value;
 
     // Crear un objeto con los datos
     var data = {id_genero: id_genero};
@@ -140,10 +158,47 @@ document.getElementById('botonEliminarGeneros').addEventListener('click', functi
     .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
+         // Limpiar las entradas de texto
+        document.getElementById('numericBoxGeneros').value = '';
+        document.getElementById('textBoxGeneros').value = '';
     })
     .catch((error) => {
         console.error('Error:', error);
     });
+
 });
 
-
+document.getElementById('botonModificarGeneros').addEventListener('click', function() {
+    // Recoger los datos de los campos de entrada
+    var id_genero = document.getElementById('numericBoxGeneros').value;
+    var nombre = document.getElementById('textBoxGeneros').value;
+    // Verificar si el nombre está vacío
+    if (!nombre) {
+        alert('El nombre no puede estar vacío');
+        return;
+    }
+    // Crear un objeto con los datos
+    var data = {nombre: nombre};
+    
+    console.log(data);
+    
+    // Enviar una solicitud AJAX a tu servidor
+    fetch('/modificar-dato/' + id_genero, {
+        method: 'PUT', // o 'POST'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+         // Limpiar las entradas de texto
+        document.getElementById('numericBoxGeneros').value = '';
+        document.getElementById('textBoxGeneros').value = '';
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+   
+});
