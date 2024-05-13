@@ -31,79 +31,37 @@
 										<h1>Generos</h1>
 									</header>
 			
-									<div style="display: flex; justify-content: center;"><h2>Insertar en Tabla Generos</h2></div>
-								<div>	
-									<table class="tabla-personalizada">
-											<thead>
-											<tr>
-											  <th class="celda-encabezado">ID A INSERTAR</th>
-											  <th class="celda-encabezado">NOMBRE DE GENERO A INSERTAR</th>
-											</tr>
-										  </thead>
-										  <tbody>
-											<tr>
-											  <td class="celda-datos"><input type="text" name="numericBoxGeneros" id="numericBoxGeneros" max="2147483647"></td>
-											  <p id="mensajeMaximoNumeros" style="display: none;">Máximo hasta 2147483647</p>
-
-											  <td class="celda-datos"><input type="text" name="textBoxGeneros" id="textBoxGeneros"></td>
-											  <p id="mensajeMaximoCaracteres" style="display: none;">Máximo 20 caracteres.</p>
-											</tr>
-										  </tbody>
-									</table>
-								</div>
+									
 										<p> </p>		
-										<button id="botonInsertarGeneros" class="button primary" style="display: block; margin: auto;">Insertar</button>
-										<p> </p>	
-
-								<div style="display: flex; justify-content: center;"><h2>Modificar en Tabla Generos</h2></div>
-								
+											<p> </p>	
+								<div style="display: flex; justify-content: center;"><h2>Insertar, Eliminar Y Modificar en Tabla Generos</h2></div>
 								<div>	
 									<table class="tabla-personalizada">
 											<thead>
 											<tr>
-											  
-											  <th class="celda-encabezado">NOMBRE DE GENERO A MODIFICAR</th>
+												<th class="celda-encabezado">ID GENERO</th>
+											 	<th class="celda-encabezado">NOMBRE DE GENERO</th>
 											</tr>
 										  </thead>
 										  <tbody>
 											<tr>
-											  
-											  <td class="celda-datos"><input type="text" name="textBoxGeneros" id="textBoxGeneros"></td>
-											  <p id="mensajeMaximoCaracteres" style="display: none;">Máximo 20 caracteres.</p>
-											</tr>
-										  </tbody>
-									</table>
-								</div>
-										<p> </p>		
-										<button id="botonModificarGeneros" class="button primary" style="display: block; margin: auto;">Modificar</button>
-										<p> </p>
-								<div style="display: flex; justify-content: center;"><h2>Eliminar en Tabla Generos</h2></div>
-								<div>	
-									<table class="tabla-personalizada">
-											<thead>
-											<tr>
-												<th class="celda-encabezado">ID A ELIMINAR</th>
-											 	<th class="celda-encabezado">NOMBRE DE GENERO A ELIMINAR</th>
-											</tr>
-										  </thead>
-										  <tbody>
-											<tr>
-												<td class="celda-datos">
-												<select id="selectBoxGeneros"></select></td>
+												<td class="celda-datos"><input type="text" name="numericBoxGeneros" id="numericBoxGeneros" max="2147483647"></td>
+												<p id="mensajeMaximoNumeros" style="display: none;">Máximo hasta 2147483647</p>
+  
 											  	<td class="celda-datos"><input type="text" name="textBoxGeneros" id="textBoxGeneros"></td>
-												  <p id="mensajeMaximoCaracteres" style="display: none;">Máximo 20 caracteres.</p>
-												
-													
-													
+												  <p id="mensajeMaximoCaracteres" style="display: none;">Máximo 20 caracteres.</p>		
 											</tr>
 										  </tbody>
 									</table>
 								</div>
-										<p> </p>		
-										<button id="botonEliminarGeneros" class="button primary" style="display: inline-block; margin: auto;">Eliminar</button><button id="botonModificarGeneros" class="button primary" style="display: inline-block; margin: auto;">Modificar</button>
-												
-										
 										<p> </p>
+										<div style ="display: flex; justify-content: center;">		
+										<button id="botonInsertarGeneros" class="button primary" style="display: inline-block; margin: auto;">Insertar</button>
+										<button id="botonModificarGeneros" class="button primary" style="display: inline-block; margin: auto;">Modificar</button>
+										<button id="botonEliminarGeneros" class="button primary" style="display: inline-block; margin: auto;">Eliminar</button>
+										<p> </p>
+									</div>
+									<p> </p>
 								<div style="display: flex; justify-content: center;"><h2>Visualización de Tabla Generos</h2></div>
 								
 									<div id = "contenedorTabla" style="display:none">
