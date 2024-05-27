@@ -24,6 +24,10 @@ def pageGeneric():
 @app.route('/pageElements')
 def pageElements():
     return render_template('elements.html')
+
+@app.route('/pageQuejas')
+def pageQuejas():
+    return render_template('quejas.html')
     
 def hash_password(password):
     # Genera un salt y luego hashea la contraseña con ese salt
@@ -210,6 +214,63 @@ def modificar_dato(id_genero):
     except Exception as e:
         return jsonify({'mensaje': 'Error al modificar el dato'}), 500
 
+@app.route('/alumnos')
+def get_alumnos():
+# Conectar a la base de datos MySQL
+    cursor = conn.cursor()
+
+    # Ejecutar consulta SQL para obtener alumnos
+    consulta = "SELECT matricula  FROM Alumnos"
+    cursor.execute(consulta)
+
+    # Obtener resultados de la consulta
+    alumnos = cursor.fetchall()
+
+    # Convertir resultados a lista de diccionarios
+    data = []
+    for alumno in alumnos:
+        data.append({'matricula': alumno[0]})
+
+    # Cerrar cursor
+    cursor.close()
+
+    # Devolver la lista de diccionarios en formato JSON
+    return jsonify(data)
+
+
+@app.route('/api/insertarquejas', methods=['POST'])
+def insertar_queja():
+    try:
+        nueva_queja = request.json
+        cursor = conn.cursor()
+
+        # Recoger los datos de los campos de entrada
+        queja_id= nueva_queja['queja_id']
+        id_login = nueva_queja['id_login']
+        id_estado_queja = nueva_queja['id_estado_queja']
+        id_moderador = nueva_queja['id_moderador']
+        id_Departamento = nueva_queja['id_Departamento']
+        id_concepto = nueva_queja['id_concepto']
+        matricula = nueva_queja['matricula']
+        fecha_ini_queja = nueva_queja['fecha_ini_queja']
+
+        # Ejecutar consulta SQL para insertar la nueva queja
+        consulta = """
+        INSERT INTO Quejas (queja_id, id_login, id_estado_queja, id_moderador, id_Departamento, id_concepto, matricula, fecha_ini_queja) 
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        cursor.execute(consulta, (queja_id, id_login, id_estado_queja, id_moderador, id_Departamento, id_concepto, matricula, fecha_ini_queja))
+
+        # Confirmar la transacción
+        conn.commit()
+
+        # Cerrar cursor
+        cursor.close()
+
+        return jsonify({'mensaje': 'Queja insertada'}), 201
+
+    except Exception as e:
+        return jsonify({'mensaje': 'Error al insertar la queja'}), 500
 
 if __name__ == "__main__": 
     socketio.run(app, debug=True)
