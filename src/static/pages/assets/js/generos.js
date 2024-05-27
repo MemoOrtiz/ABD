@@ -5,6 +5,9 @@ const mensajeMaximoNumeros = document.getElementById("mensajeMaximoNumeros");
 textBoxGeneros.setAttribute('maxlength', '20');
 const socket = io.connect('http://127.0.0.1:5000');
 
+const textBoxQuejas = document.getElementById("textBoxQuejas");
+const numericBoxQuejas = document.getElementById("numericBoxQuejas");
+
 textBoxGeneros.addEventListener("input", () => {
     const currentLength = textBoxGeneros.value.length;
     const regex = /^[a-zA-Z ]*$/;
@@ -202,3 +205,56 @@ document.getElementById('botonModificarGeneros').addEventListener('click', funct
     });
    
 });
+
+textBoxQuejas.addEventListener("input", () => {
+    const currentLength = textBoxGeneros.value.length;
+    const regex = /^[a-zA-Z]*$/;
+    if (!regex.test(textBoxGeneros.value)) {
+        textBoxGeneros.value = textBoxGeneros.value.substring(0, currentLength - 1);
+    }
+    if (currentLength >= 20) {
+        mensajeMaximoCaracteres.style.display = "block"; // Mostrar el mensaje
+    } else {
+        mensajeMaximoCaracteres.style.display = "none"; // Ocultar el mensaje
+    }
+});
+numericBoxQuejas.addEventListener("input", () => {
+    let currentValue = numericBoxQuejas.value;
+    const regex = /^[0-9]*$/;
+    if (!regex.test(currentValue)) {
+        currentValue = currentValue.substring(0, currentValue.length - 1);
+        numericBoxQuejas.value = currentValue;
+    }
+    if (parseInt(currentValue) >= 2147483647) {
+        mensajeMaximoNumeros.style.display = "block"; // Mostrar el mensaje
+        numericBoxQuejas.value = currentValue.substring(0, currentValue.length - 1);
+    } else {
+        mensajeMaximoNumeros.style.display = "none"; // Ocultar el mensaje
+    }
+
+});
+
+let numericBoxQuejas1 = document.getElementById('numericBoxQuejas1');
+let numericBoxQuejas2 = document.getElementById('numericBoxQuejas2');
+
+function addNumericInputListener(inputId, messageId) {
+    let inputElement = document.getElementById(inputId);
+    let messageElement = document.getElementById(messageId);
+
+    inputElement.addEventListener("input", () => {
+        let currentValue = inputElement.value;
+        const regex = /^[0-9]*$/;
+        if (!regex.test(currentValue)) {
+            currentValue = currentValue.substring(0, currentValue.length - 1);
+            inputElement.value = currentValue;
+        }
+        if (parseInt(currentValue) >= 2147483647) {
+            messageElement.style.display = "block"; // Mostrar el mensaje
+            inputElement.value = currentValue.substring(0, currentValue.length - 1);
+        } else {
+            messageElement.style.display = "none"; // Ocultar el mensaje
+        }
+    });
+}
+addNumericInputListener('numericBoxQuejas1', 'mensajeMaximoNumeros1');
+addNumericInputListener('numericBoxQuejas2', 'mensajeMaximoNumeros2');
