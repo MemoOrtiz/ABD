@@ -272,5 +272,27 @@ def insertar_queja():
     except Exception as e:
         return jsonify({'mensaje': 'Error al insertar la queja'}), 500
 
+@app.route('/api/alumnos/<matricula>')
+def get_alumno(matricula):
+    # Conectar a la base de datos MySQL
+    cursor = conn.cursor()
+
+    # Ejecutar consulta SQL para obtener los detalles del alumno
+    consulta = "SELECT nombre_alumno, paterno_alumno, materno_alumno FROM Alumnos WHERE matricula = %s"
+    cursor.execute(consulta, (matricula,))
+
+    # Obtener resultados de la consulta
+    alumno = cursor.fetchone()
+
+    # Convertir resultados a diccionario
+    data = {'nombre_alumno': alumno[0], 'paterno_alumno': alumno[1], 'materno_alumno': alumno[2]}
+
+    # Cerrar cursor
+    cursor.close()
+
+    # Devolver el diccionario en formato JSON
+    return jsonify(data)
+
+
 if __name__ == "__main__": 
     socketio.run(app, debug=True)

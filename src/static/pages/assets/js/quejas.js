@@ -14,6 +14,10 @@ const numericBoxQuejas1 = document.getElementById("numericBoxQuejas1");
 const numericBoxQuejas2 = document.getElementById("numericBoxQuejas2");
 const numericBoxQuejas3 = document.getElementById("numericBoxQuejas3");
 
+textBoxQuejas.setAttribute('maxlength', '30');
+textBoxQuejas1.setAttribute('maxlength', '30');
+textBoxQuejas2.setAttribute('maxlength', '30');
+
 const socket = io.connect('http://127.0.0.1:5000');
 
 numericBoxQuejas.addEventListener("input", () => {
@@ -178,3 +182,34 @@ fetch('/alumnos')
         });
     })
     .catch(error => console.error('Error:', error));
+
+// Escucha el evento 'change' en el elemento select
+
+listaAlumnos.addEventListener('change', function() {
+    // Obtén la matrícula del alumno seleccionado
+    let matricula = this.value;
+
+    // Si la matrícula es una cadena vacía, limpia los campos de texto
+    if (matricula === '') {
+        document.getElementById('textBoxQuejas').value = '';
+        document.getElementById('textBoxQuejas1').value = '';
+        document.getElementById('textBoxQuejas2').value = '';
+    } else {
+        // Realiza una solicitud a tu API para obtener los detalles del alumno
+        // Solo si la matrícula no es una cadena vacía
+        fetch('/api/alumnos/' + matricula)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Completa los campos de texto con los detalles del alumno
+                document.getElementById('textBoxQuejas').value = data.nombre_alumno;
+                document.getElementById('textBoxQuejas1').value = data.paterno_alumno;
+                document.getElementById('textBoxQuejas2').value = data.materno_alumno;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+});
