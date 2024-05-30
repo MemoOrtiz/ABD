@@ -1,5 +1,7 @@
 const mensajeMaximoCaracteres = document.getElementById("mensajeMaximoCaracteres");
 const mensajeMaximoNumeros = document.getElementById("mensajeMaximoNumeros");
+const mensajeMaximoNumeros1 = document.getElementById("mensajeMaximoNumeros");
+const mensajeMaximoNumeros2 = document.getElementById("mensajeMaximoNumeros");
 
 const textBoxQuejas = document.getElementById("textBoxQuejas");
 const textBoxQuejas1 = document.getElementById("textBoxQuejas1");
@@ -43,10 +45,10 @@ numericBoxQuejas1.addEventListener("input", () => {
         numericBoxQuejas1.value = currentValue;
     }
     if (parseInt(currentValue) >= 2147483647) {
-        mensajeMaximoNumeros.style.display = "block"; // Mostrar el mensaje
+        mensajeMaximoNumeros1.style.display = "block"; // Mostrar el mensaje
         numericBoxQuejas1.value = currentValue.substring(0, currentValue.length - 1);
     } else {
-        mensajeMaximoNumeros.style.display = "none"; // Ocultar el mensaje
+        mensajeMaximoNumeros1.style.display = "none"; // Ocultar el mensaje
     }
 }   );
 
@@ -58,10 +60,10 @@ numericBoxQuejas2.addEventListener("input", () => {
         numericBoxQuejas2.value = currentValue;
     }
     if (parseInt(currentValue) >= 2147483647) {
-        mensajeMaximoNumeros.style.display = "block"; // Mostrar el mensaje
+        mensajeMaximoNumeros2.style.display = "block"; // Mostrar el mensaje
         numericBoxQuejas2.value = currentValue.substring(0, currentValue.length - 1);
     } else {
-        mensajeMaximoNumeros.style.display = "none"; // Ocultar el mensaje
+        mensajeMaximoNumeros2.style.display = "none"; // Ocultar el mensaje
     }
 }  );
 
@@ -212,4 +214,55 @@ listaAlumnos.addEventListener('change', function() {
             })
             .catch(error => console.error('Error:', error));
     }
+});
+
+
+
+// Obtén una referencia al elemento select para los departamentos
+let listaDepartamentos = document.getElementById('listaDepartamentos');
+
+// Realiza una solicitud a tu API para obtener la lista de departamentos
+fetch('/departamentos')
+
+    .then(response => response.json())
+       
+    .then(data => {
+        // Elimina las opciones existentes, excepto la primera
+        while (listaDepartamentos.options.length > 1) {
+            listaDepartamentos.remove(1);
+        }
+
+        // Agrega una opción por cada departamento en los datos
+        data.forEach(departamento => {
+            let option = document.createElement('option');
+            option.value = departamento.id_Departamento; // Asume que 'id' es la PK en tus datos 
+            option.text = departamento.nombre_departamento; // Asume que 'nombre' es el nombre del departamento en tus datos
+            console.log(option);
+            listaDepartamentos.add(option);
+        });
+    })
+    .catch(error => console.error('Error:', error));
+
+    // Obtén una referencia al campo de entrada y al select
+let inputMatricula = document.getElementById('numericBoxQuejas1');
+let selectAlumnos = document.getElementById('listaAlumnos');
+
+// Agrega un event listener al campo de entrada para detectar cambios en su valor
+inputMatricula.addEventListener('input', function() {
+    // Realiza una solicitud a tu API para obtener los datos del alumno con la matrícula ingresada
+    fetch('/api/alumnos/' + this.value)
+        .then(response => response.json())
+        .then(data => {
+            // Actualiza el campo de entrada con el nombre del alumno
+            inputMatricula.value = data.nombre;
+
+            // Busca la opción en el select que corresponda al alumno y selecciónala
+            for (let i = 0; i < selectAlumnos.options.length; i++) {
+                if (selectAlumnos.options[i].value == data.id) {
+                    selectAlumnos.selectedIndex = i;
+                    break;
+                }
+            }
+        })
+        .catch(error => console.error('Error:', error));
 });
