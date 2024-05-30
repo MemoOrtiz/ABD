@@ -196,6 +196,11 @@ sup {
     font-size: 12px;
     margin-top: 5px;
   }
+  #mensajeMaximoNumeros1{
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
   table.tabla-personalizada {
     border-collapse: collapse;
     width: 80%;
