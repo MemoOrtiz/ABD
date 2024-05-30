@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from connection.database import conn
 from flask_socketio import SocketIO, emit
+import mysql.connector
 
 
 app = Flask(__name__, static_url_path='', template_folder='../templates', static_folder='../static')
@@ -217,6 +218,11 @@ def modificar_dato(id_genero):
 @app.route('/alumnos')
 def get_alumnos():
 # Conectar a la base de datos MySQL
+    #cursor = conn.cursor()
+    conn = mysql.connector.connect(host="localhost",
+    user="abd",
+    password="1234",
+    database="quejas")
     cursor = conn.cursor()
 
     # Ejecutar consulta SQL para obtener alumnos
@@ -237,6 +243,47 @@ def get_alumnos():
     # Devolver la lista de diccionarios en formato JSON
     return jsonify(data)
 
+
+@app.route('/api/alumnos/<matricula>')
+def get_alumno(matricula):
+    # Conectar a la base de datos MySQL
+    cursor = conn.cursor()
+
+    # Ejecutar consulta SQL para obtener los detalles del alumno
+    consulta = "SELECT nombre_alumno, paterno_alumno, materno_alumno FROM Alumnos WHERE matricula = %s"
+    cursor.execute(consulta, (matricula,))
+
+    # Obtener resultados de la consulta
+    alumno = cursor.fetchone()
+
+    # Convertir resultados a diccionario
+    data = {'nombre_alumno': alumno[0], 'paterno_alumno': alumno[1], 'materno_alumno': alumno[2]}
+
+    # Cerrar cursor
+    cursor.close()
+
+    # Devolver el diccionario en formato JSON
+    return jsonify(data)
+
+
+@app.route('/departamentos', methods=['GET'])
+def get_departamentos():
+
+    connector = mysql.connector.connect(host="localhost",
+    user="abd",
+    password="1234",
+    database="quejas")
+
+    cursor = connector.cursor()
+    consulta = "SELECT id_Departamento, nombre_departamento FROM Departamentos"
+    cursor.execute(consulta)
+    departamentos = cursor.fetchall()
+    data = []
+    for departamento in departamentos:
+        data.append({'id_Departamento': departamento[0], 'nombre_departamento': departamento[1]})
+    
+    cursor.close()
+    return jsonify(data)
 
 @app.route('/api/insertarquejas', methods=['POST'])
 def insertar_queja():
@@ -271,27 +318,6 @@ def insertar_queja():
 
     except Exception as e:
         return jsonify({'mensaje': 'Error al insertar la queja'}), 500
-
-@app.route('/api/alumnos/<matricula>')
-def get_alumno(matricula):
-    # Conectar a la base de datos MySQL
-    cursor = conn.cursor()
-
-    # Ejecutar consulta SQL para obtener los detalles del alumno
-    consulta = "SELECT nombre_alumno, paterno_alumno, materno_alumno FROM Alumnos WHERE matricula = %s"
-    cursor.execute(consulta, (matricula,))
-
-    # Obtener resultados de la consulta
-    alumno = cursor.fetchone()
-
-    # Convertir resultados a diccionario
-    data = {'nombre_alumno': alumno[0], 'paterno_alumno': alumno[1], 'materno_alumno': alumno[2]}
-
-    # Cerrar cursor
-    cursor.close()
-
-    # Devolver el diccionario en formato JSON
-    return jsonify(data)
 
 
 if __name__ == "__main__": 
