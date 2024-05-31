@@ -37,7 +37,7 @@ numericBoxQuejas.addEventListener("input", () => {
     }
 }   );
 
-numericBoxQuejas1.addEventListener("input", () => {
+/* numericBoxQuejas1.addEventListener("input", () => {
     let currentValue = numericBoxQuejas1.value;
     const regex = /^[0-9]*$/;
     if (!regex.test(currentValue)) {
@@ -50,9 +50,9 @@ numericBoxQuejas1.addEventListener("input", () => {
     } else {
         mensajeMaximoNumeros1.style.display = "none"; // Ocultar el mensaje
     }
-}   );
+}   ); */
 
-numericBoxQuejas2.addEventListener("input", () => {
+/* numericBoxQuejas2.addEventListener("input", () => {
     let currentValue = numericBoxQuejas2.value;
     const regex = /^[0-9]*$/;
     if (!regex.test(currentValue)) {
@@ -65,7 +65,7 @@ numericBoxQuejas2.addEventListener("input", () => {
     } else {
         mensajeMaximoNumeros2.style.display = "none"; // Ocultar el mensaje
     }
-}  );
+}  ); */
 
 
 textBoxQuejas.addEventListener("input", () => {
@@ -243,26 +243,102 @@ fetch('/departamentos')
     })
     .catch(error => console.error('Error:', error));
 
-    // Obtén una referencia al campo de entrada y al select
-let inputMatricula = document.getElementById('numericBoxQuejas1');
-let selectAlumnos = document.getElementById('listaAlumnos');
+let listaModeradores = document.getElementById('listaModeradores');
 
-// Agrega un event listener al campo de entrada para detectar cambios en su valor
-inputMatricula.addEventListener('input', function() {
-    // Realiza una solicitud a tu API para obtener los datos del alumno con la matrícula ingresada
-    fetch('/api/alumnos/' + this.value)
+fetch('/moderadores')
+    
         .then(response => response.json())
+        
         .then(data => {
-            // Actualiza el campo de entrada con el nombre del alumno
-            inputMatricula.value = data.nombre;
-
-            // Busca la opción en el select que corresponda al alumno y selecciónala
-            for (let i = 0; i < selectAlumnos.options.length; i++) {
-                if (selectAlumnos.options[i].value == data.id) {
-                    selectAlumnos.selectedIndex = i;
-                    break;
-                }
+            // Elimina las opciones existentes, excepto la primera
+            while (listaModeradores.options.length > 1) {
+                listaModeradores.remove(1);
             }
+    
+            // Agrega una opción por cada departamento en los datos
+            data.forEach(moderador => {
+                let option = document.createElement('option');
+                option.value = moderador.id_moderador; // Asume que 'id' es la PK en tus datos 
+                option.text = moderador.nombre_mod + ' ' + moderador.paterno_mod + ' ' + moderador.materno_mod;  
+                console.log(option);
+                listaModeradores.add(option);
+            });
         })
         .catch(error => console.error('Error:', error));
+
+
+// Escucha el evento 'change' en el elemento select
+
+listaModeradores.addEventListener('change', function() {
+    // Obtén el id del moderador seleccionado
+    let id_moderador = this.value;
+
+    // Si el id es una cadena vacía, limpia los campos de texto
+    if (id_moderador === '') {
+        document.getElementById('textBoxQuejas3').value = '';
+        document.getElementById('textBoxQuejas4').value = '';
+        document.getElementById('textBoxQuejas5').value = '';
+    } else {
+        // Realiza una solicitud a tu API para obtener los detalles del moderador
+        // Solo si el id no es una cadena vacía
+        fetch('/api/moderadores/' + id_moderador)
+            .then(response => {
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Completa los campos de texto con los detalles del moderador
+                document.getElementById('textBoxQuejas3').value = data.nombre_mod;
+                document.getElementById('textBoxQuejas4').value = data.paterno_mod;
+                document.getElementById('textBoxQuejas5').value = data.materno_mod;
+            })
+            .catch(error => console.error('Error:', error));
+    }
 });
+
+
+let listaConceptosQueja = document.getElementById('listaConceptosQueja');
+
+fetch('/conceptos')
+        
+    .then(response => response.json())        
+        .then(data => {
+            // Elimina las opciones existentes, excepto la primera
+            while (listaConceptosQueja.options.length > 1) {
+                listaConceptosQueja.remove(1);
+            }
+            // Agrega una opción por cada departamento en los datos
+            data.forEach(concepto => {
+            let option = document.createElement('option');
+            option.value = concepto.id_concepto; // Asume que 'id' es la PK en tus datos 
+            option.text = concepto.concepto;  
+            console.log(option);
+            listaConceptosQueja.add(option);
+            });
+        })
+            .catch(error => console.error('Error:', error));
+
+
+let listaEstadosQueja = document.getElementById('listaEstatusQueja');
+
+fetch('/estadosQueja')                
+        .then(response => response.json())        
+            .then(data => {
+                // Elimina las opciones existentes, excepto la primera
+                while (listaEstadosQueja.options.length > 1) {
+                    listaEstadosQueja.remove(1);
+                }
+                // Agrega una opción por cada departamento en los datos
+                data.forEach(estado => {
+                let option = document.createElement('option');
+                option.value = estado.id_estado_queja; // Asume que 'id' es la PK en tus datos 
+                option.text = estado.nombre_estado;  
+                console.log(option);
+                listaEstadosQueja.add(option);
+                });
+            })
+                .catch(error => console.error('Error:', error));
+
