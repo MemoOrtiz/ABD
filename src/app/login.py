@@ -285,6 +285,76 @@ def get_departamentos():
     cursor.close()
     return jsonify(data)
 
+@app.route('/moderadores', methods=['GET'])
+def get_moderadores():
+    connector1 = mysql.connector.connect(host="localhost",
+    user="abd",
+    password="1234",
+    database="quejas")
+    cursor = connector1.cursor()
+    consulta = "SELECT id_moderador, nombre_mod, paterno_mod, materno_mod FROM Moderador"
+    cursor.execute(consulta)
+    moderadores = cursor.fetchall()
+    data = []
+    for moderador in moderadores:
+        data.append({'id_moderador': moderador[0], 'nombre_mod': moderador[1], 'paterno_mod': moderador[2], 'materno_mod': moderador[3]})
+    
+    cursor.close()
+    return jsonify(data)
+
+
+@app.route('/api/moderadores/<id_moderador>', methods=['GET'])
+def get_moderador(id_moderador):
+    connector5 = mysql.connector.connect(host="localhost",
+    user="abd",
+    password="1234",
+    database="quejas")
+
+    cursor = connector5.cursor()
+
+    consulta = "SELECT nombre_mod, paterno_mod, materno_mod FROM Moderador WHERE id_moderador = %s"
+    cursor.execute(consulta, (id_moderador,))
+    moderador = cursor.fetchone()
+    data = {'nombre_mod': moderador[0], 'paterno_mod': moderador[1], 'materno_mod': moderador[2]}
+    
+    cursor.close()
+    return jsonify(data)
+
+
+@app.route('/conceptos', methods=['GET'])
+def get_conceptos():
+    connector2 = mysql.connector.connect(host="localhost",
+    user="abd",
+    password="1234",
+    database="quejas")
+    cursor = connector2.cursor()
+    consulta = "SELECT id_concepto, concepto FROM Conceptos_Queja"
+    cursor.execute(consulta)
+    conceptos = cursor.fetchall()
+    data = []
+    for concepto in conceptos:
+        data.append({'id_concepto': concepto[0], 'concepto': concepto[1]})
+
+    cursor.close()
+    return jsonify(data)
+
+@app.route('/estadosQueja', methods=['GET'])
+def get_estado_queja():
+    connector3 = mysql.connector.connect(host="localhost",
+    user="abd",
+    password="1234",
+    database="quejas")
+    cursor = connector3.cursor()
+    consulta = "SELECT id_estado_queja, nombre_estado FROM Estados_Queja"
+    cursor.execute(consulta)
+    estado_queja = cursor.fetchall()
+    data = []
+    for estado in estado_queja:
+        data.append({'id_estado_queja': estado[0], 'nombre_estado': estado[1]})
+
+    cursor.close()
+    return jsonify(data)
+
 @app.route('/api/insertarquejas', methods=['POST'])
 def insertar_queja():
     try:
