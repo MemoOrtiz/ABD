@@ -134,7 +134,7 @@ CREATE TABLE Quejas (
   id_Departamento INTEGER NOT NULL,
   id_concepto INTEGER NOT NULL,
   matricula INTEGER NOT NULL,
-  detalles_queja VARCHAR(2500) NULL,
+  detalles_queja VARCHAR(10000) NULL,
   fecha_ini_queja DATE NULL,
   fecha_fin_queja DATE NULL,
   constraint pk_quejas PRIMARY KEY(queja_id),

@@ -56,9 +56,9 @@
 																<select name="demo-category" id="listaAlumnos">
 																	<option value="">- Lista de Matriculas de Alumnos  -</option>
 																	<option value="1">Manufacturing</option>
-																	<option value="1">Shipping</option>
-																	<option value="1">Administration</option>
-																	<option value="1">Human Resources</option>
+																	<option value="2">Shipping</option>
+																	<option value="3">Administration</option>
+																	<option value="4">Human Resources</option>
 																</select>
 															</div>
 															<!-- Break -->
@@ -135,52 +135,36 @@
 														
 															<!-- Break -->
 															<div class="col-12">
-																<textarea name="textBoxQuejas" id="textBoxQuejas6" placeholder="Enter your message" rows="6"></textarea>
+																<textarea name="textBoxQuejas" id="textBoxQuejas6" placeholder="Detalla tu Queja" rows="6"></textarea>
 															</div>
 														
 														</div>
 													</form>
 													<p></p>
 													<div style ="display: flex; justify-content: center;">		
-														<button id="botonInsertarGeneros" class="button primary" style="display: inline-block; margin: auto;">Insertar</button>
-														<button id="botonModificarGeneros" class="button primary" style="display: inline-block; margin: auto;">Modificar</button>
-														<button id="botonEliminarGeneros" class="button primary" style="display: inline-block; margin: auto;">Eliminar</button>
+														<button id="botonInsertarQueja" class="button primary" style="display: inline-block; margin: auto;">Insertar</button>
+														<button id="botonModificarQueja" class="button primary" style="display: inline-block; margin: auto;">Modificar</button>
+														<button id="botonEliminarQueja" class="button primary" style="display: inline-block; margin: auto;">Eliminar</button>
 														<p> </p>
 													</div>
 													<p> </p>
 													
-								<div>	
-									<table class="tabla-personalizada">
-											<thead>
-											<tr>
-												<th class="celda-encabezado">ID GENERO</th>
-											 	<th class="celda-encabezado">NOMBRE DE GENERO</th>
-											</tr>
-										  </thead>
-										  <tbody>
-											<tr>
-												<td class="celda-datos"><input type="text" name="numericBoxGeneros" id="numericBoxGeneros" max="2147483647"></td>
-												<p id="mensajeMaximoNumeros" style="display: none;">Máximo hasta 2147483647</p>
-  
-											  	<td class="celda-datos"><input type="text" name="textBoxGeneros" id="textBoxGeneros"></td>
-												  <p id="mensajeMaximoCaracteres" style="display: none;">Máximo 20 caracteres.</p>		
-											</tr>
-                                            <tr>
-                                                
-                                            </tr>
-										  </tbody>
-									</table>
-								</div>
+								
 										<p> </p>
 										
-								<div style="display: flex; justify-content: center;"><h2>Visualización de Tabla Generos</h2></div>
+								<div style="display: flex; justify-content: center;"><h2>Visualización de Tabla Quejas</h2></div>
 								
-									<div id = "contenedorTabla" style="display:none">
+									<div id = "tablaQuejas" style="display:none">
 										<table>
 											<thead>
 												<tr>
-												  <th class="celda-encabezado">ID</th>
-												  <th class="celda-encabezado">NOMBRE</th>
+												  <th class="celda-encabezado">QUEJA_ID</th>
+												  <th class="celda-encabezado">MATRICULA</th>
+												  <th class="celda-encabezado">DEPARTAMENTO</th>
+                								<th class="celda-encabezado">MODERADOR</th>
+												<th class="celda-encabezado">CONCEPTO</th>
+												<th class="celda-encabezado">ESTADO QUEJA</th>
+												<th class="celda-encabezado">DETALLES QUEJA</th>
 												</tr>
 											  </thead>
 											  <tbody id="insertar-aqui">

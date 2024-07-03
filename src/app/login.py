@@ -355,39 +355,169 @@ def get_estado_queja():
     cursor.close()
     return jsonify(data)
 
-@app.route('/api/insertarquejas', methods=['POST'])
+@app.route('/detallesQueja', methods=['GET'])
+def get_detalles_queja():
+    connector4 = mysql.connector.connect(host="localhost",
+    user="abd",
+    password="1234",
+    database="quejas")
+    cursor = connector4.cursor()
+    consulta = "SELECT detalle_queja FROM Queja"
+
+    cursor.execute(consulta)
+    detalles_queja = cursor.fetchall()
+    data = []
+    for detalle in detalles_queja:
+        data.append({'detalle_queja': detalle[0]})
+
+    cursor.close()
+    return jsonify(data)
+
+@app.route('/quejas', methods=['GET'])
+def get_quejas():
+    connector6 = mysql.connector.connect(host="localhost",
+    user="abd",
+    password="1234",
+    database="quejas")
+    cursor = connector6.cursor()
+    consulta = """
+    SELECT 
+    Quejas.queja_id, 
+    Quejas.matricula, 
+    Departamentos.nombre_departamento AS nombre_departamento, 
+    CONCAT(Moderador.nombre_mod, ' ', Moderador.paterno_mod, ' ', Moderador.materno_mod) AS nombre_completo_moderador,
+    Conceptos_Queja.concepto AS concepto, 
+    Estados_Queja.nombre_estado AS nombre_estado_queja, 
+    Quejas.detalles_queja 
+    FROM 
+    Quejas 
+    INNER JOIN Departamentos ON Quejas.id_Departamento = Departamentos.id_departamento 
+    INNER JOIN Moderador ON Quejas.id_moderador = Moderador.id_moderador 
+    INNER JOIN Conceptos_Queja ON Quejas.id_concepto = Conceptos_Queja.id_concepto 
+    INNER JOIN Estados_Queja ON Quejas.id_estado_queja = Estados_Queja.id_estado_queja
+    ORDER BY nombre_departamento ASC;"""
+
+    cursor.execute(consulta)
+
+    quejas = cursor.fetchall()
+    data = []
+    for queja in quejas:
+        data.append({'queja_id': queja[0], 'matricula': queja[1], 'id_Departamento': queja[2], 'id_moderador': queja[3], 'id_concepto': queja[4], 'id_estado_queja': queja[5], 'detalles_queja': queja[6]})
+
+    cursor.close()
+    
+    return jsonify(data)
+
+@app.route('/obtener-queja/<int:queja_id>', methods=['GET'])
+def obtener_queja(queja_id):
+    try:
+        connector1 = mysql.connector.connect(host="localhost",
+        user="abd",
+        password="1234",
+        database="quejas")
+        cursor = connector1.cursor()
+        consulta = "SELECT * FROM Quejas WHERE queja_id = %s"
+        cursor.execute(consulta, (queja_id,))
+        queja = cursor.fetchone()
+
+        if queja is None:
+            return jsonify({'error': 'No se encontró la queja con el id proporcionado'}), 404
+        
+        queja_dict = {
+            'queja_id': str(queja[0]), 
+            'id_estado_queja': str(queja[1]), 
+            'id_moderador': str(queja[2]), 
+            'id_Departamento': str(queja[3]), 
+            'id_concepto': str(queja[4]), 
+            'matricula': str(queja[5]),
+            'detalles_queja': queja[6]
+            }
+        cursor.close()
+        
+        return jsonify(queja_dict)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@app.route('/insertar-queja', methods=['POST'])
 def insertar_queja():
     try:
         nueva_queja = request.json
-        cursor = conn.cursor()
+        connector1 = mysql.connector.connect(host="localhost",
+        user="abd",
+        password="1234",
+        database="quejas")
+        cursor = connector1.cursor()
+        consulta = "SELECT queja_id FROM Quejas WHERE queja_id = %s"
+        cursor.execute(consulta, (nueva_queja['queja_id'],))
 
-        # Recoger los datos de los campos de entrada
-        queja_id= nueva_queja['queja_id']
-        id_login = nueva_queja['id_login']
-        id_estado_queja = nueva_queja['id_estado_queja']
-        id_moderador = nueva_queja['id_moderador']
-        id_Departamento = nueva_queja['id_Departamento']
-        id_concepto = nueva_queja['id_concepto']
+        resultado = cursor.fetchone()
+        if resultado is not None:
+            cursor.close()
+            return jsonify({'mensaje': 'La queja ya existe'}), 400
+        
+        queja_id = nueva_queja['queja_id']
         matricula = nueva_queja['matricula']
-        fecha_ini_queja = nueva_queja['fecha_ini_queja']
+        id_Departamento = nueva_queja['id_Departamento']
+        id_moderador = nueva_queja['id_moderador']
+        id_concepto = nueva_queja['id_concepto']
+        id_estado_queja = nueva_queja['id_estado_queja']
+        detalles_queja = nueva_queja['detalles_queja']
 
-        # Ejecutar consulta SQL para insertar la nueva queja
-        consulta = """
-        INSERT INTO Quejas (queja_id, id_login, id_estado_queja, id_moderador, id_Departamento, id_concepto, matricula, fecha_ini_queja) 
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        """
-        cursor.execute(consulta, (queja_id, id_login, id_estado_queja, id_moderador, id_Departamento, id_concepto, matricula, fecha_ini_queja))
+        print(queja_id, matricula, id_Departamento, id_moderador, id_concepto, id_estado_queja, detalles_queja)
+        consulta = "INSERT INTO Quejas (queja_id, matricula, id_Departamento, id_moderador, id_concepto, id_estado_queja, detalles_queja) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        cursor.execute(consulta, (queja_id, matricula, id_Departamento, id_moderador, id_concepto, id_estado_queja, detalles_queja))
 
-        # Confirmar la transacción
-        conn.commit()
-
-        # Cerrar cursor
+        connector1.commit()
         cursor.close()
+        socketio.emit('actualizar_quejas')
 
         return jsonify({'mensaje': 'Queja insertada'}), 201
-
+    
     except Exception as e:
         return jsonify({'mensaje': 'Error al insertar la queja'}), 500
+    
+@app.route('/eliminar-queja/<int:queja_id>', methods=['DELETE'])
+def eliminar_queja(queja_id):
+    try:
+        connector2 = mysql.connector.connect(host="localhost",
+        user="abd",
+        password="1234",
+        database="quejas")
+
+        cursor = connector2.cursor()
+        consulta = "DELETE FROM Quejas WHERE queja_id = %s"
+        cursor.execute(consulta, (queja_id,))
+        connector2.commit()
+
+        cursor.close()
+        socketio.emit('actualizar_quejas')
+
+        return jsonify({'mensaje': 'Queja eliminada'})
+    except Exception as e:
+        return jsonify({'mensaje': 'Error al eliminar la queja'}), 500
+                                             
+
+@app.route('/modificar-queja/<int:queja_id>', methods=['PUT'])
+def modificar_queja(queja_id):
+    try:
+        queja = request.json
+        connector3 = mysql.connector.connect(host="localhost",
+        user="abd",
+        password="1234",
+        database="quejas")
+        cursor = connector3.cursor()
+        consulta = "UPDATE Quejas SET matricula = %s, id_Departamento = %s, id_moderador = %s, id_concepto = %s, id_estado_queja = %s, detalles_queja = %s WHERE queja_id = %s"
+        cursor.execute(consulta, (queja['matricula'], queja['id_Departamento'], queja['id_moderador'], queja['id_concepto'], queja['id_estado_queja'], queja['detalles_queja'], queja_id))
+
+        connector3.commit()
+        cursor.close()
+
+        socketio.emit('actualizar_quejas')
+
+        return jsonify({'mensaje': 'Queja modificada'}), 200
+    except Exception as e:
+        return jsonify({'mensaje': 'Error al modificar el dato'}), 500
+
 
 
 if __name__ == "__main__": 
